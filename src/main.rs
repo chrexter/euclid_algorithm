@@ -1,5 +1,26 @@
+use std::env;
+use std::str::FromStr;
+
 fn main() {
-    println!("Hello, world!");
+    let mut numbers = Vec::new();
+
+    for arg in env::args().skip(1) {
+        let value = u64::from_str(&arg).expect("error parsing argumant");
+        numbers.push(value);
+    }
+
+    if numbers.len() == 0 {
+        eprintln!("Usage: Greatest Common Divisor Number...");
+        std::process::exit(1);
+    }
+
+    let mut d = numbers[0];
+
+    for m in &numbers[1..] {
+        d = greatest_common_divisor(d, *m);
+    }
+
+    println!("The greatest common divisor of {:?} is {}", numbers, d);
 }
 
 fn greatest_common_divisor(mut n: u64, mut m: u64) -> u64 {
